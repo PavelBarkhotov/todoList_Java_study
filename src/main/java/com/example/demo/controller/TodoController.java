@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @RequestMapping("/api/todos")
 public class TodoController {
 
-    // Сделать public static для доступа из других классов (учебный упрощённый вариант)
+    // Открыто для примеров/учебных целей, доступ осуществляется напрямую из других контроллеров.
     public static final List<TodoItem> items = new ArrayList<>();
     private final AtomicLong idGenerator = new AtomicLong();
 

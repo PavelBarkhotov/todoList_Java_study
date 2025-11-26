@@ -5,6 +5,8 @@ public class TodoItem {
     private String title;
     private boolean completed;
 
+    //Пустой конструктор необходим для сериализации/десериализации (например, Jackson, Spring).
+    //Default constructor required for frameworks (Jackson, Spring).
     public TodoItem() {} // Конструктор по умолчанию
 
     // Геттеры и сеттеры
