@@ -3,72 +3,24 @@
 <head>
     <title>Менеджер задач</title>
     <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
-<h2>Ваши задачи</h2>
-<button onclick="addTodo()">Добавить задачу</button>
-<ul>
-    <li th:each="todo : ${todos}">
-        <input type="checkbox"
-               th:checked="${todo.completed}"
-               th:attr="data-id=${todo.id}"
-               onchange="updateStatus(this)" />
-        <span th:text="${todo.title}"></span>
-        <a href="#" th:onclick="'deleteTodo(' + ${todo.id} + '); return false;'">x</a>
-    </li>
-</ul>
-<script>
-    function addTodo() {
-        const title = prompt("Введите текст:");
-
-        fetch("/api/todos", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                title: title
-            })
-        }).then(r => {
-            if (r.ok) {
-                location.reload(); // обновляем страницу после удаления
-            } else {
-                alert("Ошибка добавления");
-            }
-        });
-    }
-    function updateStatus(checkbox) {
-        const id = checkbox.getAttribute('data-id');
-        const completed = checkbox.checked;
-        const title = checkbox.parentElement.querySelector('span').innerText;
-
-        fetch("/api/todos/" + id, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                id: id,
-                title: title,
-                completed: completed
-            })
-        }).then(r => {
-            if (!r.ok) alert("Ошибка обновления");
-        });
-
-    }
-    function deleteTodo(id) {
-        fetch("/api/todos/" + id, {
-            method: "DELETE"
-        }).then(r => {
-            if (r.ok) {
-                location.reload(); // обновляем страницу после удаления
-            } else {
-                alert("Ошибка удаления");
-            }
-        });
-        return false; // предотвратить переход по ссылке
-    }
-</script>
+<div class="center-block">
+    <h2>Ваши задачи</h2>
+    <button onclick="addTodo()">Добавить задачу</button>
+    <ul>
+        <li th:each="todo : ${todos}">
+            <input type="checkbox"
+                   th:checked="${todo.completed}"
+                   th:attr="data-id=${todo.id}"
+                   onchange="updateStatus(this)" />
+            <span th:text="${todo.title}"
+                  th:classappend="${todo.completed} ? 'done'"></span>
+            <a href="#" th:onclick="'deleteTodo(' + ${todo.id} + '); return false;'">x</a>
+        </li>
+    </ul>
+</div>
+<script th:src="@{/script.js}"></script>
 </body>
 </html>
